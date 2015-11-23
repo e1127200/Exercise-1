@@ -37,7 +37,33 @@ Module for testing exception handling
 # Use the function search_n from the functions module inside a new function
 # also named search_n. The function should do the same as functions.search_n
 # but if the variable is not found in the list then raise a ValueError.
-
+def search_n(things, item):
+    """
+    proofes, if a variable can be found within a given list of numbers and strings
+    - if not it raises a ValueError
+    - else it returns the tuple of the index where the variable was found  and
+    the variable itself
+    Parameters
+    ----------
+    things: list
+        list to search in
+    item: integer, float_number or string
+    Returns
+    ----------
+    found: a_tuple
+        (index, variable)
+    """
+    i = 0
+    while i < len(things):
+        if item == things[i]:
+            found = (i, item)
+            return found
+            break
+        else:
+            i += 1
+    else:
+        raise ValueError
+            
 ########################
 # Excepting Exceptions #
 ########################
@@ -46,3 +72,28 @@ Module for testing exception handling
 # the first by the second. This function should handle exceptions that might
 # occur print out what went wrong and return None if no results could be
 # computed.
+def safe_divide(first, second):
+    """
+    divides the first argument by the second if possible - else it prints out
+    what went wrong and returns None
+    Parameters
+    ----------
+    first: integer, float_number
+        dividend
+    second: integer, float_number
+        divisor
+    Returns
+    ----------
+    quotient: integer, float_number
+        result
+    """
+    try:
+        quotient = first / second
+    except ZeroDivisionError:
+        print ("You can not devide by zero.")
+        return None
+    except TypeError:
+        print ("You can not calculate with Strings. Use numbers.")
+        return None
+    else:
+        return quotient

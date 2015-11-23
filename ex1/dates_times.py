@@ -32,13 +32,89 @@ Exercises for using the datetime and the calendar module
 
 # Define a function named last_of_month that takes an argument dt of type date
 # and returns a date object representing the last day of the month dt was in.
-
+from datetime import date
+def last_of_month(dt):
+    """
+    takes an argument dt of type date and returns a date object representing
+    the last day of the month dt was in (takes into consideration leap years)
+    Parameters
+    ----------
+    dt: date
+        determines month
+    Returns
+    -------
+    lday: date
+        last day of this month
+    """
+    short = [4, 6, 9, 11]
+    if dt.month in short:
+        day = 30
+    elif dt.month == 2:
+        if dt.year % 400 == 0 or dt.year % 4 == 0 and dt.year % 100 != 0:
+            day = 29
+        else:
+            day = 28
+    else:
+        day = 31
+    lday = date(dt.year, dt.month, day)
+    return lday
+   
 # Define a function named feed_the_gremlin which takes a time object as an
 # argument. It should return False between midnight and 6:30AM and True
 # otherwise.
+def feed_the_gremlin(tm):
+    """
+    takes a time object as an argument and returns False between midnight and 
+    6:30AM and True otherwise
+    Parameters
+    ----------
+    tm: time
+        time to check
+    Returns
+    -------
+    yn: boolean
+        true/false answer
+    """
+    sec = tm.hour * 3600 + tm.minute * 60 + tm.second  
+    if sec < 23400 and sec > 0:
+        return False
+    else:
+        return True
 
 # Define a function named how_long that takes two datetime objects dt and ref
 # where ref is the reference datetime, calculates the difference between them and
 # returns the difference as a string formatted like:
 # "01 days, 01 minutes, 01 seconds until 2000-12-31 15:59:59"
 # If ref is before dt then use 'since' instead of 'until'
+def how_long(dt, ref):
+    """
+    takes two datetime objects dt and ref where ref is the reference datetime,
+    calculates the difference between them and returns the difference as a string
+    formatted like:"01 days, 01 minutes, 01 seconds until 2000-12-31 15:59:59"
+    Parameters
+    ----------
+    dt: datetime
+        new datetime
+    ref: datetime
+        refernce datetime
+    Returns
+    -------
+    diff: string
+        formated time difference
+    """  
+    if dt > ref:
+        diff = dt - ref
+        diffd = str(diff.days).zfill(2)
+        diffm = str(diff.seconds // 60).zfill(2)
+        diffs = str(diff.seconds % 60).zfill(2)
+        reff = ref.strftime("%Y-%m-%d %H:%M:%S")
+        return "{} days, {} minutes, {} seconds since {}".format(diffd, diffm, diffs, reff)
+    elif dt < ref:
+        diff = ref - dt
+        diffd = str(diff.days).zfill(2)
+        diffm = str(diff.seconds // 60).zfill(2)
+        diffs = str(diff.seconds % 60).zfill(2)
+        reff = ref.strftime("%Y-%m-%d %H:%M:%S")
+        return "{} days, {} minutes, {} seconds until {}".format(diffd, diffm, diffs, reff)
+    else:
+        return "There is no time differnce!"
